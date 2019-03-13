@@ -1,0 +1,31 @@
+.Tei {
+    overflow-y: scroll;
+    max-height: 600px;
+}
+
+.Tei tei-ab {
+    display: block;
+    margin-bottom: 1em;
+}
+
+.Tosefta {
+
+}
+
+.Tosefta tei-ab {
+    padding: 1em;
+    border: 1px solid black;
+    border-radius: 1em; 
+}
+
+.Simple {
+
+}
+
+.Ab {
+    text-align: right;
+    width: auto;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #722C25;
+}

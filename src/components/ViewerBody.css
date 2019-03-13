@@ -1,0 +1,9 @@
+.Viewer {
+    display: flex;
+}
+
+.Column {
+    flex: 1;
+    margin-right: 2em;
+    padding: 1em;
+}
