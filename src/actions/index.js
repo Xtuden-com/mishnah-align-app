@@ -1,9 +1,16 @@
-import { alignedToseftaUrl, alignmentUrl, mishnahUrl, toseftaUrl } from '../utils/urls'
+import { 
+  alignedToseftaUrl,
+  mtAlignmentUrl,
+  alignedMishnahUrl,
+  tmAlignmentUrl,
+  mishnahUrl,
+  toseftaUrl } from '../utils/urls'
 
 export const REQUEST_RESOURCE = 'REQUEST_RESOURCE'
 export const RECEIVE_RESOURCE = 'RECEIVE_RESOURCE'
 export const SELECT_LINK = 'SELECT_LINK'
 export const CLEAR_TOSEFTA_CHAPTER = 'CLEAR_TOSEFTA_CHAPTER'
+export const CLEAR_MISHNAH_CHAPTER = 'CLEAR_MISHNAH_CHAPTER'
 
 function requestResource(url, docType, chapter) {
   return {
@@ -37,9 +44,28 @@ export function clearToseftaChapter() {
   }
 }
 
+export function clearMishnahChapter() {
+  return {
+    type: CLEAR_MISHNAH_CHAPTER
+  }
+}
+
 /** ********
  * thunks *
  ******** **/
+
+export function getMishnahChapter(chapter) {
+  // This is a call to an eXist endpoint.
+  return dispatch => {
+    const requestUrl = `${mishnahUrl}${chapter}`
+    dispatch(requestResource(requestUrl, 'mishnahChapter', chapter))
+    return fetch(requestUrl)
+      .then(response => response.text())
+      .then(data => {
+        dispatch(receiveResource(data, 'mishnahChapter', chapter))
+      })
+  }
+}
 
 export function getToseftaChapter(chapter) {
   // This is a call to an eXist endpoint.
@@ -58,7 +84,7 @@ export function getToseftaAligned(alignmentTable) {
   // This is a call to an eXist endpoint.
   return dispatch => {
     const requestUrl = `${alignedToseftaUrl}${alignmentTable}`
-    dispatch(requestResource(requestUrl, 'tosefta'))
+    dispatch(requestResource(requestUrl, 'alignedTosefta'))
     return fetch(requestUrl, {
       method: 'POST',
       headers: {
@@ -68,28 +94,34 @@ export function getToseftaAligned(alignmentTable) {
     })
       .then(response => response.text())
       .then(data => {
-        dispatch(receiveResource(data, 'tosefta'))
+        dispatch(receiveResource(data, 'alignedTosefta'))
       })
   }
 }
 
-export function getMishnahChapter(chapter) {
+export function getMishnahAligned(alignmentTable) {
   // This is a call to an eXist endpoint.
   return dispatch => {
-    const requestUrl = `${mishnahUrl}${chapter}`
-    dispatch(requestResource(requestUrl, 'mishnah', chapter))
-    return fetch(requestUrl)
+    const requestUrl = `${alignedMishnahUrl}${alignmentTable}`
+    dispatch(requestResource(requestUrl, 'alignedMishnah'))
+    return fetch(requestUrl, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(alignmentTable)
+    })
       .then(response => response.text())
       .then(data => {
-        dispatch(receiveResource(data, 'mishnah', chapter))
+        dispatch(receiveResource(data, 'alignedMishnah'))
       })
   }
 }
 
-export function getAlignment(chapter) {
+export function getMTAlignment(chapter) {
   // This is a call to an eXist endpoint.
   return dispatch => {
-    const url = `${alignmentUrl}${chapter}`
+    const url = `${mtAlignmentUrl}${chapter}`
     dispatch(requestResource(url, 'alignment'))
     return fetch(url)
       .then(response => response.json())
@@ -101,3 +133,17 @@ export function getAlignment(chapter) {
   }
 }
 
+export function getTMAlignment(chapter) {
+  // This is a call to an eXist endpoint.
+  return dispatch => {
+    const url = `${tmAlignmentUrl}${chapter}`
+    dispatch(requestResource(url, 'alignment'))
+    return fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        dispatch(receiveResource(data, 'alignment'))
+        dispatch(getMishnahAligned(data))
+        dispatch(getToseftaChapter(chapter))
+      })
+  }
+}

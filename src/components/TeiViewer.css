@@ -1,11 +1,16 @@
 .Tei {
     overflow-y: scroll;
     max-height: 600px;
+    direction: rtl;
 }
 
 .Tei tei-ab {
     display: block;
     margin-bottom: 1em;
+}
+
+.Tei tei-label {
+    font-weight: bold;
 }
 
 .Tosefta {

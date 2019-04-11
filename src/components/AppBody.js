@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <div>
         <div>
-          <Route path="/:chapter?" render={(params) => <Viewer chapter={params.match.params.chapter}/>} />
+          <Route path="/:order?/:chapter?" render={(params) => <Viewer order={params.match.params.order} chapter={params.match.params.chapter}/>} />
         </div>
       </div>
     );

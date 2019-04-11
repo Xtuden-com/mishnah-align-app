@@ -20,7 +20,7 @@ export default class TeiViewer extends Component {
     cc.makeHTML5(this.props.teiData, (teiData) => {
       this.setState({teiData: teiData})
       this.refs.teiData.innerHTML = ''
-      if (this.props.dataType === 'Mishnah' || this.props.dataType === 'ToseftaChapter') {
+      if (this.props.dataType === 'MishnahChapter' || this.props.dataType === 'ToseftaChapter') {
         this.refs.teiData.appendChild(teiData)
       } else {
         this.setState({abs: Array.from(teiData.querySelectorAll('tei-ab'))})
@@ -34,7 +34,7 @@ export default class TeiViewer extends Component {
 
   doHighlights() {
     if (this.state.teiData) {
-      const type = this.props.dataType === 'Mishnah' ? 'm' : 't'
+      const type = this.props.dataType === 'MishnahChapter' || this.props.dataType === 'AlignedMishnah' ? 'm' : 't'
       // Set highlights and click events
       for (const [i, link] of this.props.alignmentData.entries()) {
         for (const [j, id] of link[type].entries()) {
@@ -54,10 +54,20 @@ export default class TeiViewer extends Component {
             w.style.cursor = 'pointer'
             w.onclick = (e) => {
               this.props.selectLink(i)
-              if (this.props.dataType === 'Tosefta') {
-                this.getTosefta(w.closest('tei-ab').getAttribute('xml:id').replace(/ref-t\.(\d+\.\d+\.\d+)\.\d+/, '$1'))
-              } else if (this.props.dataType === 'Mishnah') {
-                this.props.clearToseftaChapter()
+              switch (this.props.dataType) {
+                case 'AlignedTosefta':
+                  this.getChapter(w.closest('tei-ab').getAttribute('xml:id').replace(/ref-t\.(\d+\.\d+\.\d+)\.\d+/, '$1'))
+                  break
+                case 'AlignedMishnah':
+                  this.getChapter(w.closest('tei-ab').getAttribute('xml:id').replace(/ref\.(\d+\.\d+\.\d+)\.\d+/, '$1'))
+                  break
+                case 'MishnahChapter':
+                case 'ToseftaChapter':
+                  if (this.props.type === 'driver') {
+                    this.props.clearContextChapter()  
+                  }
+                  break
+                default:
               }
             }
           }
@@ -66,12 +76,12 @@ export default class TeiViewer extends Component {
     }
   }
 
-  getTosefta(chapter) {
-    this.props.getToseftaChapter(chapter)
+  getChapter(chapter) {
+    this.props.getContextChapter(chapter)
   }
 
   render() {
-    let type = this.props.dataType === 'Mishnah' || this.props.dataType === 'ToseftaChapter' ? 'Simple' :'Tosefta'
+    let type = this.props.dataType === 'MishnahChapter' || this.props.dataType === 'ToseftaChapter' ? 'Simple' : 'Tosefta'
     return <div ref="teiData" className={`Tei ${type}`}>{
       this.state.abs.map((ab, i) => {
         return (
@@ -94,6 +104,6 @@ TeiViewer.propTypes = {
   dataType: PropTypes.string,
   alignmentData: PropTypes.array,
   selectLink: PropTypes.func,
-  getToseftaChapter: PropTypes.func,
-  clearToseftaChapter: PropTypes.func
+  getContextChapter: PropTypes.func,
+  clearContextChapter: PropTypes.func
 }

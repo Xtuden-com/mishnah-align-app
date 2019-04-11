@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
-import {RECEIVE_RESOURCE, REQUEST_RESOURCE, SELECT_LINK, CLEAR_TOSEFTA_CHAPTER} from '../actions'
+import {RECEIVE_RESOURCE, REQUEST_RESOURCE, SELECT_LINK, CLEAR_TOSEFTA_CHAPTER, CLEAR_MISHNAH_CHAPTER} from '../actions'
 
 function reduceResource(state = {}, action) {
   let newState = {}
@@ -39,6 +39,13 @@ function reduceResource(state = {}, action) {
         return newState
       }
       return state
+    case CLEAR_MISHNAH_CHAPTER:
+      if (state.mishnahChapter) {
+        newState = Object.assign({}, state)
+        delete newState.mishnahChapter
+        return newState
+      }
+      return state
     default:
       return state
   }
@@ -50,6 +57,7 @@ function resources(state = {}, action) {
     case REQUEST_RESOURCE:
     case SELECT_LINK:
     case CLEAR_TOSEFTA_CHAPTER:
+    case CLEAR_MISHNAH_CHAPTER:
       return Object.assign({},
         reduceResource(state, action)
       )
