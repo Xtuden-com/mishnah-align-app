@@ -87,7 +87,7 @@ export default class TeiViewer extends Component {
         return (
           <div key={i}>
             <div className="Ab" onClick={() => {
-              this.getTosefta(ab.getAttribute('xml:id').replace(/ref-t\.(\d+\.\d+\.\d+)\.\d+/, '$1'))
+              this.getChapter(ab.getAttribute('xml:id').replace(/ref-t\.(\d+\.\d+\.\d+)\.\d+/, '$1'))
             }}>
               {ab.getAttribute('xml:id').replace('ref-t.', '')}
             </div>
