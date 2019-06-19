@@ -89,7 +89,7 @@ export default class TeiViewer extends Component {
             <div className="Ab" onClick={() => {
               this.getChapter(ab.getAttribute('xml:id').replace(/ref-t\.(\d+\.\d+\.\d+)\.\d+/, '$1'))
             }}>
-              {ab.getAttribute('xml:id').replace('ref-t.', '')}
+              {ab.getAttribute('n')}
             </div>
             <div dangerouslySetInnerHTML={{__html: ab.outerHTML}}/>
           </div>
