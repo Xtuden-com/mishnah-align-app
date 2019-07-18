@@ -6,7 +6,14 @@
 
 .Tei tei-ab {
     display: block;
-    margin-bottom: 1em;
+    padding-bottom: 16pt;
+    font-size: 0;
+    line-height: 16pt;
+}
+
+.Tei tei-w {
+    font-size: 12pt;
+    margin: 0 0.125em;
 }
 
 .Tei tei-label {
@@ -18,9 +25,9 @@
 }
 
 .Tosefta tei-ab {
-    padding: 1em;
+    padding: 12pt;
     border: 1px solid black;
-    border-radius: 1em; 
+    border-radius: 12pt; 
 }
 
 .Simple {

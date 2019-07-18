@@ -1,0 +1,22 @@
+.WLinked {
+  cursor: pointer;
+  margin: 0 !important;
+  padding: 0 0.125em;
+  background-color: #C5A471;
+  color: black;
+}
+
+.WFirst {
+  border-top-right-radius: .5em;
+  border-bottom-right-radius: .5em;
+}
+
+.WLast {
+  border-top-left-radius: .5em;
+  border-bottom-left-radius: .5em;
+}
+
+.WSelected {
+  background-color: #722C25;
+  color: white;
+}

@@ -31,7 +31,6 @@ export default class ViewerBody extends Component {
         teiData={this.props.driverChapter}
         dataType={this.props.order === 'mt' ? "MishnahChapter" : "ToseftaChapter"}
         alignmentData={this.props.alignment}
-        selectLink={this.props.selectLink}
         clearContextChapter={this.props.clearContextChapter} />
     }
     if (this.props.alignment && this.props.alignedDocument) {
@@ -40,7 +39,6 @@ export default class ViewerBody extends Component {
         teiData={this.props.alignedDocument}
         dataType={this.props.order === 'mt' ? "AlignedTosefta" : "AlignedMishnah"}
         alignmentData={this.props.alignment}
-        selectLink={this.props.selectLink}
         getContextChapter={this.props.getContextChapter} />
     }
     if (this.props.alignment && this.props.contextChapter) {
@@ -49,7 +47,6 @@ export default class ViewerBody extends Component {
         teiData={this.props.contextChapter}
         dataType={this.props.order === 'mt' ? "ToseftaChapter" : "MishnahChapter"}
         alignmentData={this.props.alignment}
-        selectLink={this.props.selectLink}
         clearContextChapter={this.props.clearContextChapter} />
     }
     if (this.props.contextChapterNumber) {
@@ -87,6 +84,6 @@ ViewerBody.propTypes = {
   alignment: PropTypes.array,
   alignedDocument: PropTypes.string,
   getAlignment: PropTypes.func.isRequired,
-  selectLink: PropTypes.func,
-  clearContextChapter: PropTypes.func
+  clearContextChapter: PropTypes.func,
+  getContextChapter: PropTypes.func
 }

@@ -2,7 +2,6 @@ import { connect } from 'react-redux'
 import {
   getMTAlignment,
   getTMAlignment,
-  selectLink,
   getToseftaChapter,
   getMishnahChapter,
   clearToseftaChapter,
@@ -57,8 +56,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getAlignment,
     getContextChapter,
-    clearContextChapter,
-    selectLink: (idx) => dispatch(selectLink(idx))
+    clearContextChapter    
   }
 }
 
