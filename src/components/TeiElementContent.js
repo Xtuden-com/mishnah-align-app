@@ -4,6 +4,25 @@ import TeiElement from '../containers/TeiElement'
 import './TeiElementContent.css'
 
 export default class TeiElementContent extends Component {
+  constructor(props) {
+    super(props)
+    this.teiRef = React.createRef()
+  }
+
+  componentDidMount() {
+    this.scrollSelectionIntoView()
+  }
+
+  componentDidUpdate() {
+    this.scrollSelectionIntoView()
+  }
+
+  scrollSelectionIntoView() {
+    if (this.props.matches.filter(m => m.selected).length > 0) {
+      this.teiRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+    }
+  }
+
   getRoleClass() {
     if (this.props.dataType.match('Aligned') && this.props.matches.length === 0) {
       return 'WHide'
@@ -40,7 +59,7 @@ export default class TeiElementContent extends Component {
     }, {})
   }
 
-  setOnClick(match) {
+  doClick(match) {
     this.props.selectLink(match.linkIndex)
     if (this.props.getContextChapter) {
       this.props.getContextChapter(match.linkedChapter)
@@ -60,7 +79,7 @@ export default class TeiElementContent extends Component {
             <span 
               key={`${this.props.teiDomElement.getAttribute('id')}_${match.idx}`}
               className="ShowAlignment"
-              onClick={() => this.setOnClick(match)}
+              onClick={() => this.doClick(match)}
             >⇠</span>
           )
         }
@@ -86,7 +105,8 @@ export default class TeiElementContent extends Component {
     return React.createElement(this.props.teiDomElement.tagName, 
       {
         ...this.forwardTeiAttributes(),
-        ...wProps
+        ...wProps,
+        ref: this.teiRef
       }, 
       children
     )
