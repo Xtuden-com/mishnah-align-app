@@ -1,5 +1,4 @@
 .WLinked {
-  cursor: pointer;
   margin: 0 !important;
   padding: 0 0.125em;
   background-color: #C5A471;
@@ -19,4 +18,19 @@
 .WSelected {
   background-color: #722C25;
   color: white;
+}
+
+.ShowAlignment {
+  font-size: 16px;
+  padding: 0 5px;
+  margin: 0 5px;
+  color: #333;
+  background-color: #7192c5;
+  font-weight: bolder;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.WHide {
+  display: none;
 }

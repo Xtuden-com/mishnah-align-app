@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Component } from 'react'
 import TeiViewer from './TeiViewer'
-import { Link } from 'react-router-dom'
 import './ViewerBody.css'
 
 export default class ViewerBody extends Component {
@@ -24,12 +23,12 @@ export default class ViewerBody extends Component {
     let driverChapter
     let alignedDocument = 'Loading alignment data...'
     let contextChapter
-    let contextChapterTitle
     if (this.props.alignment && this.props.driverChapter) {
       driverChapter = <TeiViewer
         type="driver" 
         teiData={this.props.driverChapter}
         dataType={this.props.order === 'mt' ? "MishnahChapter" : "ToseftaChapter"}
+        label={this.props.order === 'mt' ? "Mishnah" : "Tosefta"}
         alignmentData={this.props.alignment}
         clearContextChapter={this.props.clearContextChapter} />
     }
@@ -38,6 +37,7 @@ export default class ViewerBody extends Component {
         type="alignment"
         teiData={this.props.alignedDocument}
         dataType={this.props.order === 'mt' ? "AlignedTosefta" : "AlignedMishnah"}
+        label={this.props.order === 'mt' ? "Aligned Tosefta" : "Aligned Mishnah"}
         alignmentData={this.props.alignment}
         getContextChapter={this.props.getContextChapter} />
     }
@@ -46,28 +46,19 @@ export default class ViewerBody extends Component {
         type="context"
         teiData={this.props.contextChapter}
         dataType={this.props.order === 'mt' ? "ToseftaChapter" : "MishnahChapter"}
+        label={this.props.order === 'mt' ? "Tosefta" : "Mishnah"}
         alignmentData={this.props.alignment}
         clearContextChapter={this.props.clearContextChapter} />
-    }
-    if (this.props.contextChapterNumber) {
-      contextChapterTitle = <h2>
-          {this.props.order === 'mt' ? 'Tosefta' : 'Mishnah'} Chapter {this.props.contextChapterNumber}
-          <small>(<Link to={`/${this.props.order === 'mt' ? 'tm' : 'mt'}/${this.props.contextChapterNumber}`}>
-            align to this chapter</Link>)</small>
-        </h2>
     }
     return (
       <div className="Viewer">
         <div className="Column" key="a">
-          <h2>{this.props.order === 'mt' ? 'Mishnah' : 'Tosefta'} Chapter {this.props.chapter}</h2>
           {driverChapter}
         </div>
         <div className="Column" key="b">
-          <h2>Aligned {this.props.order === 'mt' ? 'Tosefta' : 'Mishnah'}</h2>
           {alignedDocument}
         </div>
         <div className="Column" key="c">
-          {contextChapterTitle}
           {contextChapter}
         </div>
       </div>
